@@ -81,8 +81,8 @@ The changelogFile and changelogTitle parameters can be dynamically generated whe
     [
       "@newbish/changelog",
       {
-        "changelogFile": "CHANGELOG<%= branch.name !== 'main' ? `-@${branch.name}` : '' %>.md",
-        "changelogTitle": "---\ntitle: Changelog<%= branch.name !== 'main' ? '- Next Branch' : '' %>\n---",
+        "changelogFile": "CHANGELOG<%= branch.name !== 'main' ? `-${branch.name}` : '' %>.md",
+        "changelogTitle": "---\ntitle: Changelog<%= branch.name != 'main' ? '- Next Branch' : '' %>\n---",
         "branches": [
           "main",
           "next"
