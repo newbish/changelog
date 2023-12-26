@@ -20,20 +20,18 @@
     "@semantic-release/error": "^3.0.0",
     "@semantic-release/git": "^10.0.1",
     "aggregate-error": "^3.0.0",
-    "fs-extra": "^9.0.0",
+    "fs-extra": "^11.0.0",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "file:.",
-    "ava": "4.2.0",
+    "ava": "5.1.0",
     "clear-module": "4.1.2",
     "codecov": "3.8.3",
     "nyc": "15.1.0",
-    "prettier": "2.4.1",
-    "semantic-release": "19.0.2",
-    "sinon": "14.0.0",
+    "semantic-release": "21.1.2",
+    "sinon": "17.0.1",
     "tempy": "1.0.1",
-    "xo": "0.28.3"
+    "xo": "0.39.1"
   },
   "engines": {
     "node": ">=14.17"
@@ -75,7 +73,8 @@
     "singleQuote": true
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "repository": {
     "type": "git",
@@ -94,6 +93,7 @@
     "prettier": true,
     "space": true,
     "rules": {
+      "unicorn/no-array-reduce": "off",
       "unicorn/string-content": "off"
     }
   },
