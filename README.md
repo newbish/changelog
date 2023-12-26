@@ -7,7 +7,7 @@
 
 | Step               | Description                                                                                                                                                                                           |
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `verifyConditions` | Verify the `changelogFile` and `changelogTitle` options configuration.                                                                                                                                |
+| `verifyConditions` | Verify the `branch`, `changelogFile` and `changelogTitle` options configuration.                                                                                                                      |
 | `prepare`          | Create or update a changelog file in the local project directory with the changelog content created in the [generate notes step](https://github.com/semantic-release/semantic-release#release-steps). |
 
 ## Install
@@ -28,7 +28,8 @@ The plugin can be configured in the [**semantic-release** configuration file](ht
     [
       "@newbish/changelog",
       {
-        "changelogFile": "docs/CHANGELOG.md"
+        "changelogFile": "docs/CHANGELOG.md",
+        "branches": ["main"]
       }
     ],
     [
@@ -51,10 +52,11 @@ With this example, for each release, a `docs/CHANGELOG.md` will be created or up
 | ---------------- | ----------------------------------------------------- | -------------- |
 | `changelogFile`  | File path of the changelog.                           | `CHANGELOG.md` |
 | `changelogTitle` | Title of the changelog file (first line of the file). | -              |
+| `branches`       | A array of branches to write a changelog for.         | All branches   |
 
 ### Examples
 
-When used with the [@semantic-release/git](https://github.com/semantic-release/git) or [@semantic-release/npm](https://github.com/semantic-release/npm) plugins the `@semantic-release/changelog` plugin must be called first in order to update the changelog file so the [@semantic-release/git](https://github.com/semantic-release/git) and [@semantic-release/npm](https://github.com/semantic-release/npm) plugins can include it in the release.
+When used with the [@semantic-release/git](https://github.com/semantic-release/git) or [@semantic-release/npm](https://github.com/semantic-release/npm) plugins the `@newbish/changelog` plugin must be called first in order to update the changelog file so the [@semantic-release/git](https://github.com/semantic-release/git) and [@semantic-release/npm](https://github.com/semantic-release/npm) plugins can include it in the release.
 
 ```json
 {
@@ -65,5 +67,29 @@ When used with the [@semantic-release/git](https://github.com/semantic-release/g
     "@semantic-release/npm",
     "@semantic-release/git"
   ]
+}
+```
+
+## Advanced
+
+The changelogFile and changelogTitle parameters can be dynamically generated when setup as a template.
+
+```json
+{
+  "plugins": [
+    ...
+    [
+      "@newbish/changelog",
+      {
+        "changelogFile": "CHANGELOG<%= branch.name !== 'main' ? `-@${branch.name}` : '' %>.md",
+        "changelogTitle": "---\ntitle: Changelog<%= branch.name !== 'main' ? '- Next Branch' : '' %>\n---",
+        "branches": [
+          "main",
+          "next"
+        ]
+      }
+    ],
+    ...
+    ]
 }
 ```
