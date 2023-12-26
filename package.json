@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@semantic-release/github": "^9.2.6",
+    "@semantic-release/npm": "^11.0.2",
     "ava": "5.1.0",
     "clear-module": "4.1.2",
     "codecov": "3.8.3",
