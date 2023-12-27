@@ -2,8 +2,8 @@
 
 [**semantic-release**](https://github.com/semantic-release/semantic-release) plugin to create or update a changelog file.
 
-[![Build Status](https://github.com/semantic-release/changelog/workflows/Test/badge.svg)](https://github.com/semantic-release/changelog/actions?query=workflow%3ATest+branch%3Amaster) [![npm latest version](https://img.shields.io/npm/v/@semantic-release/changelog/latest.svg)](https://www.npmjs.com/package/@semantic-release/changelog)
-[![npm next version](https://img.shields.io/npm/v/@semantic-release/changelog/next.svg)](https://www.npmjs.com/package/@semantic-release/changelog)
+[![Build Status](https://github.com/newbish/changelog/workflows/Test/badge.svg)](https://github.com/newbish/changelog/actions?query=workflow%3ATest+branch%3Amain) [![npm latest version](https://img.shields.io/npm/v/@newbish/changelog/latest.svg)](https://www.npmjs.com/package/@newbish/changelog)
+[![npm next version](https://img.shields.io/npm/v/@newbish/changelog/next.svg)](https://www.npmjs.com/package/@newbish/changelog)
 
 | Step               | Description                                                                                                                                                                                           |
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
