@@ -24,31 +24,31 @@ test.serial('Verify "changelogFile"', async (t) => {
 
 test.serial("Create new CHANGELOG.md", async (t) => {
   const cwd = tempy.directory();
+  const branch = { name: null };
   const notes = "Test release note";
   const changelogFile = "docs/changelog.txt";
   const changelogPath = path.resolve(cwd, changelogFile);
 
   await t.context.m.prepare(
     { changelogFile },
-    { cwd, options: {}, branch: { name: null }, nextRelease: { notes }, logger: t.context.logger }
+    { cwd, options: {}, branch, nextRelease: { notes }, logger: t.context.logger }
   );
 
   // Verify the content of the CHANGELOG.md
   t.is((await readFile(changelogPath)).toString(), `${notes}\n`);
 
-  t.deepEqual(t.context.log.args[0], ["Create %s", changelogPath]);
+  t.deepEqual(t.context.log.args[0], ["Branch: %s", branch?.name]);
+  t.deepEqual(t.context.log.args[2], ["Create: %s", changelogPath]);
 });
 
 test.serial("Skip changelog update if the release is empty", async (t) => {
   const cwd = tempy.directory();
+  const branch = { name: null };
   const changelogFile = "CHANGELOG.txt";
   const changelogPath = path.resolve(cwd, changelogFile);
   await outputFile(changelogPath, "Initial CHANGELOG");
 
-  await t.context.m.prepare(
-    {},
-    { cwd, options: {}, branch: { name: null }, nextRelease: {}, logger: t.context.logger }
-  );
+  await t.context.m.prepare({}, { cwd, options: {}, branch, nextRelease: {}, logger: t.context.logger });
 
   // Verify the content of the CHANGELOG.md
   t.is((await readFile(changelogPath)).toString(), "Initial CHANGELOG");
@@ -56,6 +56,7 @@ test.serial("Skip changelog update if the release is empty", async (t) => {
 
 test.serial("Verify only on the fist call", async (t) => {
   const cwd = tempy.directory();
+  const branch = { name: null };
   const notes = "Test release note";
   const changelogFile = "docs/changelog.txt";
   const changelogPath = path.resolve(cwd, changelogFile);
@@ -64,15 +65,13 @@ test.serial("Verify only on the fist call", async (t) => {
     { changelogFile },
     { nextRelease: { notes }, options: { prepare: ["@semantic-release/git"] } }
   );
-  await t.context.m.prepare(
-    { changelogFile },
-    { cwd, branch: { name: null }, nextRelease: { notes }, logger: t.context.logger }
-  );
+  await t.context.m.prepare({ changelogFile }, { cwd, branch, nextRelease: { notes }, logger: t.context.logger });
 
   // Verify the content of the CHANGELOG.md
   t.is((await readFile(changelogPath)).toString(), `${notes}\n`);
 
-  t.deepEqual(t.context.log.args[0], ["Create %s", changelogPath]);
+  t.deepEqual(t.context.log.args[0], ["Branch: %s", branch?.name]);
+  t.deepEqual(t.context.log.args[2], ["Create: %s", changelogPath]);
 });
 
 test('Throw SemanticReleaseError if prepare "changelogFile" option is not a string', async (t) => {

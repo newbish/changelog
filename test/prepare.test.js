@@ -13,44 +13,50 @@ test.beforeEach((t) => {
 
 test("Create new CHANGELOG.md", async (t) => {
   const cwd = tempy.directory();
+  const branch = { name: "testing" };
   const notes = "Test release note";
   const changelogFile = "CHANGELOG.md";
   const changelogPath = path.resolve(cwd, changelogFile);
 
-  await prepare({}, { cwd, nextRelease: { notes }, logger: t.context.logger });
+  await prepare({}, { cwd, branch, nextRelease: { notes }, logger: t.context.logger });
 
   // Verify the content of the CHANGELOG.md
   t.is((await readFile(changelogPath)).toString(), `${notes}\n`);
 
-  t.deepEqual(t.context.log.args[0], ["Create %s", changelogPath]);
+  t.deepEqual(t.context.log.args[0], ["Branch: %s", branch.name]);
+  t.deepEqual(t.context.log.args[2], ["Create: %s", changelogPath]);
 });
 
 test("Create new changelog with custom path", async (t) => {
   const cwd = tempy.directory();
+  const branch = { name: "development" };
   const notes = "Test release note";
   const changelogFile = "docs/changelog.txt";
   const changelogPath = path.resolve(cwd, "docs/changelog.txt");
 
-  await prepare({ changelogFile }, { cwd, nextRelease: { notes }, logger: t.context.logger });
+  await prepare({ changelogFile }, { cwd, branch, nextRelease: { notes }, logger: t.context.logger });
 
   // Verify the content of the CHANGELOG.md
   t.is((await readFile(changelogPath)).toString(), `${notes}\n`);
 
-  t.deepEqual(t.context.log.args[0], ["Create %s", changelogPath]);
+  t.deepEqual(t.context.log.args[0], ["Branch: %s", branch.name]);
+  t.deepEqual(t.context.log.args[2], ["Create: %s", changelogPath]);
 });
 
 test("Prepend the CHANGELOG.md if there is an existing one", async (t) => {
   const cwd = tempy.directory();
+  const branch = { name: "testing" };
   const notes = "Test release note";
   const changelogFile = "CHANGELOG.md";
   const changelogPath = path.resolve(cwd, changelogFile);
   await outputFile(changelogPath, "Initial CHANGELOG");
 
-  await prepare({}, { cwd, nextRelease: { notes }, logger: t.context.logger });
+  await prepare({}, { cwd, branch, nextRelease: { notes }, logger: t.context.logger });
 
   // Verify the content of the CHANGELOG.md
   t.is((await readFile(changelogPath)).toString(), `${notes}\n\nInitial CHANGELOG\n`);
-  t.deepEqual(t.context.log.args[0], ["Update %s", changelogPath]);
+  t.deepEqual(t.context.log.args[0], ["Branch: %s", branch.name]);
+  t.deepEqual(t.context.log.args[2], ["Update: %s", changelogPath]);
 });
 
 test("Prepend title in the CHANGELOG.md if there is none", async (t) => {
